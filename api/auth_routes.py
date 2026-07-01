@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 
-from services.auth_service import (
+from services.auth.auth_service import (
     register_user,
     login_user
 )
