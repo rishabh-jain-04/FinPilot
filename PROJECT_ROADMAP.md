@@ -14,6 +14,6 @@ Sprint 3
 
 ✅ Finance Engine
 
-⬜ Gemini
+✅ Gemini
 
 ⬜ Dashboard

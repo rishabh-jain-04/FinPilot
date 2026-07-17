@@ -7,6 +7,7 @@ from db.db import init_db
 from api.auth_routes import auth_bp
 from api.profile_routes import profile_bp
 from api.finance_routes import finance_bp
+from api.chat_routes import chat_bp
 
 def create_app():
     app = Flask(__name__)
@@ -18,6 +19,7 @@ def create_app():
     app.register_blueprint(auth_bp)
     app.register_blueprint(profile_bp)
     app.register_blueprint(finance_bp)
+    app.register_blueprint(chat_bp)
 
     return app
 
