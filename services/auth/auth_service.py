@@ -72,3 +72,10 @@ def login_user(email, password):
         "message": "Login successful.",
         "token": token
 }
+
+def decode_token(token):
+    return jwt.decode(
+        token,
+        Config.SECRET_KEY,
+        algorithms=["HS256"]
+    )

@@ -1,5 +1,6 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, g
 
+from api.auth_middleware import require_auth
 from services.profile.profile_service import (
     create_user_profile,
     get_user_profile,
@@ -14,12 +15,13 @@ profile_bp = Blueprint(
 
 
 @profile_bp.route("/", methods=["POST"])
+@require_auth
 def create():
 
     data = request.get_json()
 
     result = create_user_profile(
-        data["user_id"],
+        g.user_id,
         data["monthly_income"],
         data["monthly_expenses"],
         data["dependants"],
@@ -31,21 +33,23 @@ def create():
     return jsonify(result)
 
 
-@profile_bp.route("/<int:user_id>", methods=["GET"])
-def get(user_id):
+@profile_bp.route("/me", methods=["GET"])
+@require_auth
+def get():
 
     return jsonify(
-        get_user_profile(user_id)
+        get_user_profile(g.user_id)
     )
 
 
-@profile_bp.route("/<int:user_id>", methods=["PUT"])
-def update(user_id):
+@profile_bp.route("/me", methods=["PUT"])
+@require_auth
+def update():
 
     data = request.get_json()
 
     result = update_user_profile(
-        user_id,
+        g.user_id,
         data["monthly_income"],
         data["monthly_expenses"],
         data["dependants"],

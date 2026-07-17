@@ -1,5 +1,6 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, g
 
+from api.auth_middleware import require_auth
 from services.chat.chat_service import handle_message
 
 chat_bp = Blueprint(
@@ -10,11 +11,12 @@ chat_bp = Blueprint(
 
 
 @chat_bp.route("/message", methods=["POST"])
+@require_auth
 def message():
     data = request.get_json() or {}
 
     result = handle_message(
-        data.get("user_id"),
+        g.user_id,
         data.get("message")
     )
 

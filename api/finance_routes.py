@@ -1,5 +1,6 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, g
 
+from api.auth_middleware import require_auth
 from services.finance.finance_service import (
     get_budget,
     get_sip_projection,
@@ -17,11 +18,12 @@ finance_bp = Blueprint(
 
 
 @finance_bp.route("/budget", methods=["POST"])
+@require_auth
 def budget():
     data = request.get_json() or {}
 
     result = get_budget(
-        data.get("user_id"),
+        g.user_id,
         data.get("monthly_income"),
         data.get("monthly_expenses")
     )
@@ -30,6 +32,7 @@ def budget():
 
 
 @finance_bp.route("/sip", methods=["POST"])
+@require_auth
 def sip():
     data = request.get_json() or {}
 
@@ -43,6 +46,7 @@ def sip():
 
 
 @finance_bp.route("/emi", methods=["POST"])
+@require_auth
 def emi():
     data = request.get_json() or {}
 
@@ -56,13 +60,14 @@ def emi():
 
 
 @finance_bp.route("/emi/affordability", methods=["POST"])
+@require_auth
 def emi_affordability():
     data = request.get_json() or {}
 
     result = get_max_loan_amount(
         data.get("annual_interest_rate"),
         data.get("tenure_years"),
-        data.get("user_id"),
+        g.user_id,
         data.get("monthly_income"),
         data.get("existing_emi", 0),
         data.get("affordability_ratio")
@@ -72,11 +77,12 @@ def emi_affordability():
 
 
 @finance_bp.route("/emergency-fund", methods=["POST"])
+@require_auth
 def emergency_fund():
     data = request.get_json() or {}
 
     result = get_emergency_fund(
-        data.get("user_id"),
+        g.user_id,
         data.get("monthly_expenses"),
         data.get("dependants"),
         data.get("risk_profile")
@@ -86,11 +92,12 @@ def emergency_fund():
 
 
 @finance_bp.route("/tax", methods=["POST"])
+@require_auth
 def tax():
     data = request.get_json() or {}
 
     result = get_tax(
-        data.get("user_id"),
+        g.user_id,
         data.get("annual_gross_income")
     )
 
