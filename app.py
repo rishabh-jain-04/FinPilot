@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 
 from config import Config
 from api.health_routes import health_bp
@@ -14,6 +15,8 @@ def create_app():
 
     app.config.from_object(Config)
     init_db()
+
+    CORS(app)
 
     app.register_blueprint(health_bp)
     app.register_blueprint(auth_bp)
