@@ -16,7 +16,7 @@ def create_app():
     app.config.from_object(Config)
     init_db()
 
-    CORS(app)
+    CORS(app, origins=Config.CORS_ORIGINS)
 
     app.register_blueprint(health_bp)
     app.register_blueprint(auth_bp)
