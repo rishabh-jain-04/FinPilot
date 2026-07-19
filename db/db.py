@@ -1,9 +1,10 @@
+import os
 import sqlite3
 from contextlib import contextmanager
 from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent
 
-DATABASE_PATH = BASE_DIR / "finpilot.db"
+DATABASE_PATH = Path(os.getenv("DATABASE_PATH", BASE_DIR / "finpilot.db"))
 
 SCHEMA_PATH = BASE_DIR / "schema.sql"
 
