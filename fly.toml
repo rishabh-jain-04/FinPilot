@@ -1,24 +1,27 @@
-# app name must be globally unique on Fly.io — change if this one's taken
-app = "finpilot-api"
-primary_region = "bom"
+# fly.toml app configuration file generated for finpilot-api on 2026-07-20T02:16:55+05:30
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'finpilot-api'
+primary_region = 'sin'
 
 [build]
-
 [env]
-PORT = "8080"
-DATABASE_PATH = "/data/finpilot.db"
+  DATABASE_PATH = '/data/finpilot.db'
+  PORT = '8080'
 
 [[mounts]]
-source = "finpilot_data"
-destination = "/data"
+  source = 'finpilot_data'
+  destination = '/data'
 
 [http_service]
-internal_port = 8080
-force_https = true
-auto_stop_machines = "off"
-auto_start_machines = true
-min_machines_running = 1
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = 'off'
+  auto_start_machines = true
+  min_machines_running = 1
 
 [[vm]]
-size = "shared-cpu-1x"
-memory = "1024mb"
+  size = 'shared-cpu-1x'
+  memory = '1024mb'

@@ -3,6 +3,7 @@ from flask_cors import CORS
 
 from config import Config
 from api.health_routes import health_bp
+from api.limiter import limiter
 from db.db import init_db
 
 from api.auth_routes import auth_bp
@@ -17,6 +18,7 @@ def create_app():
     init_db()
 
     CORS(app, origins=Config.CORS_ORIGINS)
+    limiter.init_app(app)
 
     app.register_blueprint(health_bp)
     app.register_blueprint(auth_bp)
